@@ -1,20 +1,32 @@
 const FileManager = require("../domain/FileManager.js");
 
 class App {
-    constructor(id, credentials, regularExpression, typeFile) {
+    constructor(regularExpression, id, credentials, typeFile) {
+        this.regularExpression = regularExpression;
         this.id = id;
         this.credentials = credentials;
-        this.regularExpression = regularExpression;
         this.typeFile = typeFile;
     }
 
     dataInputs = [
+        this.regularExpression,
         this.id,
         this.credentials,
-        this.regularExpression,
         this.typeFile
     ]
 
+    requestGDriveSearch() {
+        if (this.checkDataInput(this.dataInputs)) {
+            const fileManager = new FileManager();
+            return fileManager
+                .getSearchResult(
+                    this.dataInputs[0],
+                    this.dataInputs[1],
+                    this.dataInputs[2],
+                    this.dataInputs[3],
+                )
+        }
+    }
 
     checkDataInput(dataInput) {
         const auth = dataInput.map(data => {
