@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "googleapis": "^39.2.0",
+    "install": "^0.13.0",
+    "npm": "^8.16.0"
+  },
+  "name": "controller",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
