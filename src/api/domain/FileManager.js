@@ -1,8 +1,11 @@
-const FileFactory = require("");
+const FileFactory = require("../service/factories/FileFactory.js");
 const GDriveService = require("../service/GDriveService.js");
 
 const gDriveService = new GDriveService();
 class FileManager {
+  constructor() {
+
+  }
   async getFileGDrive(id, credentials, typeFile) {
     const auth = gDriveService.authenticateCredentials(credentials);
     const fileName = this.generateFileName(typeFile);
@@ -38,4 +41,4 @@ class FileManager {
   }
 }
 
-module.exports = { FileManager };
+module.exports = FileManager;
