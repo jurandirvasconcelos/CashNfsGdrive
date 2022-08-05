@@ -1,8 +1,18 @@
-const FileFactory = require("./factories/FileFactory.js");
+const FileFactory = require("");
+const GDriveService = require("../service/GDriveService.js");
 
+const gDriveService = new GDriveService();
 class FileManager {
-  async getSearchResult(path, regularExpression) {
+  async getFileGDrive(id, credentials, typeFile) {
+    const auth = gDriveService.authenticateCredentials(credentials);
+    const fileName = this.generateFileName(typeFile);
+
+    return gDriveService.downloadFile(id, auth, fileName);
+  }
+
+  async getSearchResult(regularExpression, id, credentials, typeFile) {
     try {
+      const path = await this.getFileGDrive(id, credentials, typeFile);
       const file = new FileFactory().create(path);
 
       if (await file.isImage()) {
@@ -20,6 +30,11 @@ class FileManager {
         return error;
       }
     }
+  }
+
+  generateFileName(typeFile) {
+    let name = Math.floor(Math.random() * 1000);
+    return name + "." + typeFile;
   }
 }
 
