@@ -1,5 +1,5 @@
-const App = require("./api/controller/App.js");
-const credentials = require("./credentials.json");
+const App = require("./src/api/controller/App.js");
+const credentials = require("./credentials/credentials.json");
 
 var CurrencyBrazilian = (
     /(\(?\s?R\s?\$\s?\)?\s?\:?\s?)(\d{1,2}.)(\d{3})(,\d{2})?/g
@@ -23,4 +23,4 @@ ids.forEach(async (id) => {
 
     console.log(await app.requestGDriveSearch());
 })
-   
+
