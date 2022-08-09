@@ -28,26 +28,15 @@ class Pdf extends File {
     return pdfParse(databuffer);
   }
 
-  async isImage() {
-    const defectiveProducers = [
-      "cairo 1.17.4 (https://cairographics.org)",
-      "DynamicPDF v4.0.0 for .NET",
-    ];
-
-    //filter no lugar do for]
-
-    for (var i = 0; i < defectiveProducers.length; i++) {
-      if (defectiveProducers[i] === (await this.getProducer())) {
-        return true;
-      }
-    }
-    return false;
+  async containsText() {
+    const text = await this.getText();
+    return (text !== "\n\n") ? true : false;
   }
 
-  async getProducer() {
+  async getText() {
     const databuffer = this.read(this.path);
     const pdfInfo = await this.getMetadata(databuffer);
-    return pdfInfo.info.Producer;
+    return pdfInfo.info.text;
   }
 }
 
