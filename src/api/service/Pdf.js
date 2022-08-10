@@ -11,7 +11,7 @@ class Pdf extends File {
   }
 
   async matchText(regularExpression) {
-    const databuffer = this.read(this.path); //tentar não repetir o código
+    const databuffer = this.read(this.path); 
     const pdfInfo = await this.getMetadata(databuffer);
     const filteredValuesPdf = pdfInfo.text.match(regularExpression);
     return filteredValuesPdf[0];
@@ -36,7 +36,7 @@ class Pdf extends File {
   async getText() {
     const databuffer = this.read(this.path);
     const pdfInfo = await this.getMetadata(databuffer);
-    return pdfInfo.info.text;
+    return pdfInfo.text;
   }
 }
 

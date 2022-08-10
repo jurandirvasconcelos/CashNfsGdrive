@@ -17,11 +17,11 @@ class FileManager {
     try {
       const path = await this.getFileGDrive(id, credentials, typeFile);
       const file = new FileFactory().create(path);
-
-      if (await file.isImage()) {
-        return file.matchTextImage(regularExpression);
-      } else {
+      const searchableFile = await file.containsText();
+      if (searchableFile) {
         return file.matchText(regularExpression);
+      } else {
+        return file.matchTextImage(regularExpression);
       }
     } catch (error) {
       if (error.code == "ENOENT") {
