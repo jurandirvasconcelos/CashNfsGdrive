@@ -1,8 +1,7 @@
 const Pdf = require("../Pdf.js");
 
 class FileFactory {
-  //tentar levantar as exceções para o split e para a extenção do arquivo
-
+ 
   getFileType(filePath) {
     return filePath.split(".").pop();
   }

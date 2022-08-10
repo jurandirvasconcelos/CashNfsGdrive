@@ -8,6 +8,7 @@ class File {
   write(path, data, callback) {
     return fs.writeFileSync(path, data, callback);
   }
+  
 }
 
 module.exports = File;
