@@ -1,4 +1,4 @@
-const Pdf = require("../../../../../Amount_NFS-e/src/scripts/pdf");
+const Pdf = require("../Pdf.js");
 
 class FileFactory {
   //tentar levantar as exceções para o split e para a extenção do arquivo
