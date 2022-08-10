@@ -28,7 +28,7 @@ class Pdf extends File {
     return pdfParse(databuffer);
   }
 
-  async containsText() {
+  async validateText() {
     const text = await this.getText();
     return (text !== "\n\n") ? true : false;
   }

@@ -3,9 +3,8 @@ const GDriveService = require("../service/GDriveService.js");
 
 const gDriveService = new GDriveService();
 class FileManager {
-  constructor() {
-
-  }
+  constructor() {}
+  
   async getFileGDrive(id, credentials, typeFile) {
     const auth = gDriveService.authenticateCredentials(credentials);
     const fileName = this.generateFileName(typeFile);
@@ -17,7 +16,7 @@ class FileManager {
     try {
       const path = await this.getFileGDrive(id, credentials, typeFile);
       const file = new FileFactory().create(path);
-      const searchableFile = await file.containsText();
+      const searchableFile = await file.validateText();
       if (searchableFile) {
         return file.matchText(regularExpression);
       } else {
