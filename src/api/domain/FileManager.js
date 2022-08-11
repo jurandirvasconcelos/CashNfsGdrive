@@ -4,7 +4,7 @@ const GDriveService = require("../service/GDriveService.js");
 const gDriveService = new GDriveService();
 class FileManager {
   constructor() {}
-  
+
   async getFileGDrive(id, credentials, typeFile) {
     const auth = gDriveService.authenticateCredentials(credentials);
     const fileName = this.generateFileName(typeFile);
@@ -16,11 +16,15 @@ class FileManager {
     try {
       const path = await this.getFileGDrive(id, credentials, typeFile);
       const file = new FileFactory().create(path);
-      const searchableFile = await file.validateText();
-      if (searchableFile) {
-        return file.matchText(regularExpression);
+      if (file.validatePdf()) {
+        const searchableFile = await file.validateText();
+        if (searchableFile) {
+          return file.matchText(regularExpression);
+        } else {
+          return file.matchTextImage(regularExpression);
+        }
       } else {
-        return file.matchTextImage(regularExpression);
+        throw new Error("corrupted file or not PDF");
       }
     } catch (error) {
       if (error.code == "ENOENT") {
@@ -29,7 +33,7 @@ class FileManager {
       if (error.code == "ERR_UNHANDLED_REJECTION") {
         return "The file is not a PDF";
       } else {
-        return error;
+        return error.message;
       }
     }
   }
