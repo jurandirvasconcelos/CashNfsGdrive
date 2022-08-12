@@ -3,7 +3,7 @@ const GDriveService = require("../service/GDriveService.js");
 
 const gDriveService = new GDriveService();
 class FileManager {
-  constructor() {}
+  constructor() { }
 
   async getFileGDrive(id, credentials, typeFile) {
     const auth = gDriveService.authenticateCredentials(credentials);
@@ -27,14 +27,7 @@ class FileManager {
         throw new Error("corrupted file or not PDF");
       }
     } catch (error) {
-      if (error.code == "ENOENT") {
-        return "File path error";
-      }
-      if (error.code == "ERR_UNHANDLED_REJECTION") {
-        return "The file is not a PDF";
-      } else {
-        return error.message;
-      }
+      return error.message;
     }
   }
 
