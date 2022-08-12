@@ -3,6 +3,7 @@ const File = require("./File.js");
 const ImageManager = require("./ImageManager");
 const imageManager = new ImageManager();
 const isPDF = require("is-pdf-valid");
+
 class Pdf extends File {
   path;
   constructor(path) {
@@ -13,15 +14,27 @@ class Pdf extends File {
   async matchText(regularExpression) {
     const databuffer = this.read(this.path);
     const pdfInfo = await this.getMetadata(databuffer);
-    const filteredValuesPdf = pdfInfo.text.match(regularExpression);
-    return filteredValuesPdf[0];
+    let filteredValues = pdfInfo.text.match(regularExpression);
+    return this.checkMatchResult(filteredValues);
   }
 
   async matchTextImage(regularExpression) {
     var nameImage = await imageManager.convertToImage(this.path);
     const textFromImage = await imageManager.getText("./" + nameImage);
-    const filteredValuesImage = textFromImage.match(regularExpression);
-    return filteredValuesImage[0];
+    let filteredValues = textFromImage.match(regularExpression);
+    return this.checkMatchResult(filteredValues);
+  }
+
+  checkMatchResult(matchResult) {
+    try {
+      if (matchResult === null) {
+        throw new Error("Search result not found");
+      } else {
+        return matchResult[0];
+      }
+    } catch (error) {
+      return error.message;
+    }
   }
 
   async getMetadata(databuffer) {
