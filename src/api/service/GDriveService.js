@@ -43,6 +43,9 @@ class GDriveService {
       .get({ fileId, alt: "media" }, { responseType: "stream" })
       .then((response) => {
         return this.recordStream(response.data, localFileName);
+      })
+      .catch(() => {
+        throw new Error("Id or credentials invalid");
       });
   }
 }
