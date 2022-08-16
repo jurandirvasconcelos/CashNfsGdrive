@@ -5,22 +5,33 @@ var CurrencyBrazilian = (
     /(\(?\s?R\s?\$\s?\)?\s?\:?\s?)(\d{1,2}.)(\d{3})(,\d{2})?/g
 );
 
+var identifyAuthor = (/(\d{11})/gm)
+
 var typeFile = "pdf";
 
 var ids = [
-    '1v_8SoelpMjMiD9mAErOswzcLg_LhWHf1',
     '1Cm7L6bSZma8JAnIoihyZP_qk23Q6AvMY',
-    '1VeGu3ep3xqnmP6qOAVeoVklkDhG9nu1M',
     '1INoncYzxzlx_OpAJOQ84NslQ1tJ7AlNh',
+    '1v_8SoelpMjMiD9mAErOswzcLg_LhWHf1',
+    '1XymhfXtQNzAcMjSvArjZKdxYJeI9iAcy',
 ];
 
 ids.forEach(async (id) => {
-    var app = new App(
+    const searchValue = new App(
         CurrencyBrazilian,
         id,
         credentials,
         typeFile);
 
-    console.log(await app.requestGDriveSearch());
+    const authorResearch = new App(
+        identifyAuthor,
+        id,
+        credentials,
+        typeFile);
+
+    console.log(
+        "Author  " + await authorResearch.requestGDriveSearch() +
+        "  Value " + await searchValue.requestGDriveSearch()
+    );
 });
 
