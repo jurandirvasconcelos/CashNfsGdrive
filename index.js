@@ -1,7 +1,7 @@
 const App = require("./src/api/controller/App.js");
 const credentials = require("./credentials/credentials.json");
 
-var CurrencyBrazilian = (
+var currencyBrazilian = (
     /(\(?\s?R\s?\$\s?\)?\s?\:?\s?)(\d{1,2}.)(\d{3})(,\d{2})?/g
 );
 
@@ -17,21 +17,25 @@ var ids = [
 ];
 
 ids.forEach(async (id) => {
-    const searchValue = new App(
-        CurrencyBrazilian,
-        id,
-        credentials,
-        typeFile);
+    try {
+        const searchValue = new App(
+            currencyBrazilian,
+            id,
+            credentials,
+            typeFile);
 
-    const authorResearch = new App(
-        identifyAuthor,
-        id,
-        credentials,
-        typeFile);
+        const authorResearch = new App(
+            identifyAuthor,
+            id,
+            credentials,
+            typeFile);
 
-    console.log(
-        "Author  " + await authorResearch.requestGDriveSearch() +
-        "  Value " + await searchValue.requestGDriveSearch()
-    );
+        console.log(
+            "Author  " + await authorResearch.requestGDriveSearch() +
+            "  Value " + await searchValue.requestGDriveSearch()
+        );
+    } catch (error) {
+        console.log(error.message)
+    }
 });
 
