@@ -16,13 +16,9 @@ class FileManager {
     try {
       const path = await this.getFileGDrive(id, credentials, typeFile);
       const file = new FileFactory().create(path);
+
       if (file.validatePdf()) {
-        const searchableFile = await file.validateText();
-        if (searchableFile) {
-          return file.matchText(regularExpression);
-        } else {
-          return file.matchTextImage(regularExpression);
-        }
+        return this.getFileMatch(file, regularExpression);
       } else {
         throw new Error("corrupted file or not PDF");
       }
@@ -35,6 +31,17 @@ class FileManager {
     let name = Math.floor(Math.random() * 1000);
     return name + "." + typeFile;
   }
+
+  async getFileMatch(file, regularExpression) {
+    const searchableFile = await file.validateText();
+
+    if (searchableFile) {
+      return file.matchText(regularExpression);
+    } else {
+      return file.matchTextImage(regularExpression);
+    }
+  }
+
 }
 
 module.exports = FileManager;
