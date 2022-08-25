@@ -28,6 +28,8 @@ class App {
                     this.dataInputs[2],
                     this.dataInputs[3],
                 );
+        } else {
+            throw new Error("Failed request, bad data");
         }
     }
 
