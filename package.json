@@ -1,15 +1,20 @@
 {
   "dependencies": {
+    "fs": "^0.0.1-security",
     "googleapis": "^39.2.0",
     "install": "^0.13.0",
-    "npm": "^8.16.0"
+    "is-pdf-valid": "^0.0.1",
+    "npm": "^8.16.0",
+    "pdf-img-convert": "^1.0.6",
+    "pdf-parse": "^1.1.1",
+    "tesseract.js": "^2.1.5"
   },
   "name": "controller",
   "version": "1.0.0",
   "main": "app.js",
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
