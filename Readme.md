@@ -13,6 +13,8 @@ Aplicação desenvolvida em JavaScript utilizando Nodejs, que ler arquivo de Not
 #### Passo 2
 
 - Obter credenciais do Google Drive através de uma conta de serviço como forma de autenticação
+   ###### Acesse para mais informações:
+   -[Tutorial Google](https://support.google.com/a/answer/7378726?hl=pt-BR)
 
 #### Passo 3
 
