@@ -34,14 +34,8 @@ class App {
     }
 
     checkDataInput(dataInput) {
-        const auth = dataInput.map(data => {
-            if (data !== null) return true
-            else return false
-        });
-
-        return auth.reduce((input1, input2) => { return input1 & input2 });
+        return !dataInput.some(data => data === null)
     }
-
 }
 
 module.exports = App;
