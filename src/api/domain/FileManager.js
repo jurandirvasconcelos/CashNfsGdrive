@@ -1,9 +1,12 @@
 const FileFactory = require("../service/factories/FileFactory.js");
 const GDriveService = require("../service/GDriveService.js");
+const FilterService = require("../service/FilterService.js");
 
 const gDriveService = new GDriveService();
+const filterService = new FilterService();
+
 class FileManager {
-  constructor() { }
+  constructor() {}
 
   async getFileGDrive(id, credentials, typeFile) {
     const auth = gDriveService.authenticateCredentials(credentials);
@@ -12,13 +15,13 @@ class FileManager {
     return gDriveService.downloadFile(id, auth, fileName);
   }
 
-  async getSearchResult(regularExpression, id, credentials, typeFile) {
+  async getSearchResult(id, credentials, typeFile) {
     try {
       const path = await this.getFileGDrive(id, credentials, typeFile);
       const file = new FileFactory().create(path);
 
       if (file.validatePdf()) {
-        return this.getFileMatch(file, regularExpression);
+        return this.getFileMatch(file);
       } else {
         throw new Error("corrupted file or not PDF");
       }
@@ -32,16 +35,32 @@ class FileManager {
     return name + "." + typeFile;
   }
 
-  async getFileMatch(file, regularExpression) {
+  async getFileMatch(file) {
     const searchableFile = await file.validateText();
+    const currencyBrazilian = filterService.getBrazilianValue();
+    const identifyAuthor = filterService.getAuthor();
+
+    let author, value;
 
     if (searchableFile) {
-      return file.matchText(regularExpression);
+      author = await file.matchText(identifyAuthor);
+      value = await file.matchText(currencyBrazilian);
+
+      return this.getResponseStructure(author, value);
     } else {
-      return file.matchTextImage(regularExpression);
+      author = await file.matchTextImage(identifyAuthor);
+      value = await file.matchTextImage(currencyBrazilian);
+
+      return this.getResponseStructure(author, value);
     }
   }
 
+  getResponseStructure(author, value) {
+    return {
+      author: author,
+      value: value,
+    };
+  }
 }
 
 module.exports = FileManager;
